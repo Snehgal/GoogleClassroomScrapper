@@ -1,5 +1,5 @@
 # Classroom Scraper
-The program helps the user to download all materials from their Google Classroom locally, sorted in folders
+The program helps the user to download all materials from their Google Classroom locally, sorted in folders \
 YouTube video support is yet to be added, but all pdfs and ppts can easily be downloaded using this program
 
 ## Installation
