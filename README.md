@@ -1,5 +1,6 @@
 # Classroom Scraper
-The program helps
+The program helps the user to download all materials from their Google Classroom locally, sorted in folders
+YouTube video support is yet to be added, but all pdfs and ppts can easily be downloaded using this program
 
 ## Installation
 - Go to [Google Cloud](https://console.cloud.google.com) from the email ID that the classrooms are on
