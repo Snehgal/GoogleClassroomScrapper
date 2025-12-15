@@ -178,10 +178,18 @@ def main():
         os.makedirs(course_folder, exist_ok=True)
 
         # Fetch topics
-        topics = classroom_service.courses().topics().list(courseId=course_id).execute()
+        try:
+            topics = classroom_service.courses().topics().list(courseId=course_id).execute()
+        except Exception as e:
+            print(f"Warning: Could not fetch topics for {course_name}: {e}")
+            topics = {}
         
         # Fetch coursework materials
-        course_work_materials = classroom_service.courses().courseWorkMaterials().list(courseId=course_id).execute()
+        try:
+            course_work_materials = classroom_service.courses().courseWorkMaterials().list(courseId=course_id).execute()
+        except Exception as e:
+            print(f"Warning: Could not fetch course work materials for {course_name}: {e}")
+            course_work_materials = {}
         
         if course_work_materials.get('courseWorkMaterial'):
             for material in course_work_materials['courseWorkMaterial']:
