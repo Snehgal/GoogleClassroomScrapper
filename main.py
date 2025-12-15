@@ -55,10 +55,12 @@ def download_file(drive_service, file_id, file_path):
     print(f"Downloaded file to {file_path}")
 
 def download_assets(drive_service, save_location, material_assets):
+    file_name = "unknown_file"  # Default name to handle cases where 'title' is missing
     if material_assets.get("driveFile"):
         try:
             file_id = material_assets["driveFile"]["driveFile"]["id"]
-            file_name = sanitize(material_assets["driveFile"]["driveFile"]["title"].replace(" ", ""))
+            # Safely retrieve 'title' key, defaulting to 'unknown_file' if missing
+            file_name = sanitize(material_assets["driveFile"]["driveFile"].get("title", "Other").replace(" ", ""))
             # Sanitize the full path, not just the file name
             file_path = os.path.join(save_location, file_name)
             
@@ -69,7 +71,7 @@ def download_assets(drive_service, save_location, material_assets):
                 print(f"Downloading file: {file_name}")
                 download_file(drive_service, file_id, file_path)
             else:
-                print(f"{os.path.basename(save_location)} already exists")
+                print(f"{os.path.basename(file_path)} already exists")
         except Exception as e:
             print(f"Error while downloading file: {file_name} in {save_location}")
             print("Error details:", e)
