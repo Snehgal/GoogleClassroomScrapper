@@ -37,4 +37,4 @@ py -m pip install -r install.txt
 ```python
 python main.py
 ```
-- All donwloaded materials will appear in the `downloads` folder
+- All downloaded materials will appear in the `downloads` folder
