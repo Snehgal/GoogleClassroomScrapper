@@ -120,6 +120,29 @@ def download_announcement_files(classroom_service, drive_service, course_id, cou
     except HttpError as error:
         print(f'An error occurred while fetching announcements: {error}')
 
+def download_coursework_files(classroom_service, drive_service, course_id, course_folder, topics):
+    """Download coursework (assignments) files."""
+    try:
+        coursework = classroom_service.courses().courseWork().list(courseId=course_id).execute()
+        
+        if coursework.get('courseWork'):
+            for work in coursework['courseWork']:
+                if 'materials' in work:
+                    work_title = sanitize(work.get('title', 'Untitled'))
+                    
+                    for material_assets in work['materials']:
+                        if work.get("topicId"):
+                            topic_name = get_topic_name(topic_id=work["topicId"], topics=topics)
+                            if topic_name:
+                                save_location = os.path.join(course_folder, topic_name, work_title)
+                            else:
+                                save_location = os.path.join(course_folder, work_title)
+                        else:
+                            save_location = os.path.join(course_folder, work_title)
+                        download_assets(drive_service, save_location, material_assets)
+    except HttpError as error:
+        print(f'An error occurred while fetching coursework: {error}')
+
 def main():
     """Main function to download materials from Google Classroom."""
     creds = authenticate()
@@ -174,6 +197,10 @@ def main():
                         else:
                             save_location = os.path.join(course_folder, aula_name)
                         download_assets(drive_service, save_location, material_assets)
+        
+        # Download coursework (assignments) files
+        print(f"\nDownloading coursework/assignments for {course_name}...")
+        download_coursework_files(classroom_service, drive_service, course_id, course_folder, topics)
         
         # Download announcement files to Misc folder
         print(f"\nDownloading announcements for {course_name}...")
