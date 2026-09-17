@@ -35,6 +35,6 @@ py -m pip install -r install.txt
 
 - To run the scraper, run 
 ```python
-python main.py
+python main2.py
 ```
 - All downloaded materials will appear in the `downloads` folder
